@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/TW2Trainer/app/src/main/res/layout/activity_city.xml" value="0.28306159420289856" />
         <entry key="..\:/TW2Trainer/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/TW2Trainer/app/src/main/res/layout/city_row.xml" value="0.28306159420289856" />
         <entry key="..\:/TW2Trainer/app/src/main/res/layout/trade_row.xml" value="0.2957427536231884" />
       </map>
     </option>

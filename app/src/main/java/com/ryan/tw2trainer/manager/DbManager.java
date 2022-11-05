@@ -2,7 +2,9 @@ package com.ryan.tw2trainer.manager;
 
 import android.annotation.SuppressLint;
 
+import com.ryan.tw2trainer.manager.dao.CityDao;
 import com.ryan.tw2trainer.manager.dao.GoodsDao;
+import com.ryan.tw2trainer.manager.entity.City;
 import com.ryan.tw2trainer.manager.entity.Goods;
 
 import android.database.Cursor;
@@ -33,6 +35,8 @@ public class DbManager extends SQLiteOpenHelper {
         return mGoodsDao;
     }
 
+    public CityDao cityDao() { return mCityDao; }
+
     private static String DB_PATH;
     private static String DB_NAME = "tw2.db";
     private static final int SCHEMA = 1;
@@ -59,6 +63,16 @@ public class DbManager extends SQLiteOpenHelper {
             ));
         }
         goodsCursor.close();
+
+        Cursor cityCursor = db.rawQuery("SELECT * FROM cities", null);
+        for (cityCursor.moveToFirst(); !cityCursor.isAfterLast(); cityCursor.moveToNext()) {
+            mCityDao.addCity(new City(
+                    cityCursor.getInt(cityCursor.getColumnIndex("_id")),
+                    cityCursor.getString(cityCursor.getColumnIndex("name")),
+                    cityCursor.getInt(cityCursor.getColumnIndex("present")) != 0
+            ));
+        }
+        cityCursor.close();
 
         close();
     }
@@ -91,5 +105,6 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     private GoodsDao mGoodsDao = new GoodsDao();
+    private CityDao mCityDao = new CityDao();
 }
 

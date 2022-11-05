@@ -1,14 +1,16 @@
-package com.ryan.tw2trainer;
+package com.ryan.tw2trainer.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ryan.tw2trainer.R;
 import com.ryan.tw2trainer.manager.DbManager;
 import com.ryan.tw2trainer.manager.dao.GoodsDao;
 import com.ryan.tw2trainer.manager.entity.Goods;
@@ -28,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        findViewById(R.id.button).setOnClickListener(view -> save());
+        findViewById(R.id.saveBtn).setOnClickListener(view -> save());
+        findViewById(R.id.townBtn).setOnClickListener(view -> goToCity());
 
         LinearLayout goodsLayout = findViewById(R.id.goodsLayout);
         for (int i = 0; i < dao.size(); ++i)
@@ -51,14 +54,20 @@ public class MainActivity extends AppCompatActivity {
             maxPriceTxt.setEnabled(!goods.isLocked());
 
             CheckBox checkBox = tradeRow.findViewById(R.id.checkBox);
+            checkBox.setChecked(!goods.isLocked());
             checkBox.setOnClickListener(view -> {
-                minPriceTxt.setEnabled(checkBox.isEnabled());
-                maxPriceTxt.setEnabled(checkBox.isEnabled());
+                minPriceTxt.setEnabled(checkBox.isChecked());
+                maxPriceTxt.setEnabled(checkBox.isChecked());
             });
 
             goodsLayout.addView(tradeRow);
             mTradeRows.add(tradeRow);
         }
+    }
+
+    private void goToCity() {
+        Intent intent = new Intent(this, CityActivity.class);
+        startActivity(intent);
     }
 
     private void save()
