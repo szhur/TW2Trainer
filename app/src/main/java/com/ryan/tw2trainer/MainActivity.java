@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,9 +44,17 @@ public class MainActivity extends AppCompatActivity {
 
             EditText minPriceTxt = tradeRow.findViewById(R.id.minPriceTxt);
             minPriceTxt.setText(Integer.toString(goods.getMinPrice()));
+            minPriceTxt.setEnabled(!goods.isLocked());
 
             EditText maxPriceTxt = tradeRow.findViewById(R.id.maxPriceTxt);
             maxPriceTxt.setText(Integer.toString(goods.getMaxPrice()));
+            maxPriceTxt.setEnabled(!goods.isLocked());
+
+            CheckBox checkBox = tradeRow.findViewById(R.id.checkBox);
+            checkBox.setOnClickListener(view -> {
+                minPriceTxt.setEnabled(checkBox.isEnabled());
+                maxPriceTxt.setEnabled(checkBox.isEnabled());
+            });
 
             goodsLayout.addView(tradeRow);
             mTradeRows.add(tradeRow);
@@ -66,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
             EditText maxPriceTxt = tradeRow.findViewById(R.id.maxPriceTxt);
             goods.setMaxPrice(Integer.parseInt(String.valueOf(maxPriceTxt.getText())));
+
+            CheckBox checkBox = tradeRow.findViewById(R.id.checkBox);
+            goods.setIsLocked(!checkBox.isChecked());
 
             dao.updateGoods(goods);
         }
